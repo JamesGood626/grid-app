@@ -1,4 +1,9 @@
-import { ADD_HTML_ELEMENT, ADD_CSS_STYLES, DELETE_HTML_ELEMENT } from './types'
+import {
+  ADD_HTML_ELEMENT,
+  ADD_CSS_STYLES,
+  UPDATE_HTML_ELEMENT,
+  DELETE_HTML_ELEMENT,
+} from './types'
 
 // How you'll update state from component's
 // dispatch(addHtmlElement(payload))
@@ -9,6 +14,11 @@ import { ADD_HTML_ELEMENT, ADD_CSS_STYLES, DELETE_HTML_ELEMENT } from './types'
 export const addHtmlElement = payload => {
   // add payload onto dispatch with necessary values for updating state.
   dispatch({ type: ADD_HTML_ELEMENT, payload })
+}
+
+export const updateHtmlElement = payload => {
+  // receives identical payload as addHtmlElement
+  dispatch({ type: UPDATE_HTML_ELEMENT, payload })
 }
 
 export const deleteHtmlElement = ({ id }) => {

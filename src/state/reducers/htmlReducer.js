@@ -1,4 +1,9 @@
-import { ADD_HTML_ELEMENT } from '../actions/types'
+import {
+  ADD_HTML_ELEMENT,
+  UPDATE_HTML_ELEMENT,
+  DELETE_HTML_ELEMENT,
+} from '../actions/types'
+import { access } from 'fs'
 
 // const initialState = {
 //   byId: {},
@@ -17,9 +22,21 @@ import { ADD_HTML_ELEMENT } from '../actions/types'
 // inside of allIds: string[]
 // IHtmlElement id
 
+// The current implementation of add may need to be changed to be UPDATE_HTML_ELEMENTS
 export default function(state = null, action) {
   switch (action.type) {
     case ADD_HTML_ELEMENT:
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [action.payload.id]: {
+            ...action.payload,
+          },
+        },
+        allIds: [...state.allIds, action.payload.id],
+      }
+    case UPDATE_HTML_ELEMENT:
       return {
         ...state,
         byId: {
@@ -39,9 +56,15 @@ export default function(state = null, action) {
         allIds: [...state.allIds, action.payload.id],
       }
     case DELETE_HTML_ELEMENT:
+      const keys = Object.keys(state.byId).filter(key => key !== action.id)
       return {
         ...state,
-        byId: { ...state.byId, [action.payload.id]: action.payload },
+        // Indeed, it is a mutation, but the docs
+        // haven't shown me the immutablelight.
+        byId: keys.reduce((acc, key) => {
+          acc[key] = state[key]
+          return acc
+        }, {}),
         allIds: [...state.allIds].filter(id => id !== action.id),
       }
     default:
