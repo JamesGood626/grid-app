@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import HtmlOptionsForm from "./SFC/htmlOptionsForm";
-import styled from "styled-components";
+import React, { Component } from 'react'
+import HtmlOptionsForm from './SFC/htmlOptionsForm'
+import styled from 'styled-components'
 
 const Div = styled.div`
   height: 100%;
   width: 100%;
   background: red;
-`;
+`
 
 // Receives SidebarController's state as props,
 // To use a render prop to dynamically create HTMLOption components
@@ -16,41 +16,41 @@ class SidebarOptionsFactory extends Component {
     childHtmlOptionForms: [],
     parentCssAttributes: {
       parentCssAttributeInputOptionCount: 1,
-      styles: {}
+      styles: {},
     },
     childCssAttributes: [],
-    inputsToDeleteByClassName: {}
-  };
+    inputsToDeleteByClassName: {},
+  }
 
   componentDidUpdate() {
     const {
-      parentCssAttributeInputOptionCount
-    } = this.state.parentCssAttributes;
-    console.log("COMPONENT UPDATING!!!!!!!!!!!!");
+      parentCssAttributeInputOptionCount,
+    } = this.state.parentCssAttributes
+    console.log('COMPONENT UPDATING!!!!!!!!!!!!')
     console.log(
-      "THIS IS THE INPUTS TO DELETE ARRAY: ",
+      'THIS IS THE INPUTS TO DELETE ARRAY: ',
       this.state.inputsToDeleteByClassName
-    );
+    )
     console.log(
-      "THE STATE ARRAY FOR CHILD HTML OPTION FORMS: ",
+      'THE STATE ARRAY FOR CHILD HTML OPTION FORMS: ',
       this.state.childHtmlOptionForms
-    );
+    )
     console.log(
-      "THE PARENT CSS INPUT OPTION COUNT: ",
+      'THE PARENT CSS INPUT OPTION COUNT: ',
       this.state.parentCssAttributes.parentCssAttributeInputOptionCount
-    );
+    )
     console.log(
-      "THE CHILD CSS INPUT OPTION COUNT ARRAY: ",
+      'THE CHILD CSS INPUT OPTION COUNT ARRAY: ',
       this.state.childCssAttributes
-    );
+    )
   }
 
   renderParentHtmlOptionForm = () => {
-    const { parentCount } = this.props;
+    const { parentCount } = this.props
     const {
       parentCssAttributeInputOptionCount,
-      styles
-    } = this.state.parentCssAttributes;
+      styles,
+    } = this.state.parentCssAttributes
     return (
       <HtmlOptionsForm
         passedKey={`parent_${parentCount}`}
@@ -60,16 +60,16 @@ class SidebarOptionsFactory extends Component {
         addCssInputOption={this.addParentCssAttributeInputOption}
         updateCssStyles={this.updateCssStyles}
       />
-    );
-  };
+    )
+  }
 
   renderChildHtmlOptionBar = () => {
-    const { childHtmlOptionForms } = this.state;
+    const { childHtmlOptionForms } = this.state
     return childHtmlOptionForms.map((childId, i) => {
       const {
         childCssAttributeInputOptionCount,
-        styles
-      } = this.state.childCssAttributes[i];
+        styles,
+      } = this.state.childCssAttributes[i]
       return (
         <HtmlOptionsForm
           passedKey={`child_${childId}`}
@@ -79,37 +79,37 @@ class SidebarOptionsFactory extends Component {
           updateCssStyles={this.updateCssStyles}
           userInputStyles={styles}
         />
-      );
-    });
-  };
+      )
+    })
+  }
 
   addChildHtmlOptionForm = () => {
-    console.log("The children count before update: ", this.props.childrenCount);
-    const { childHtmlInputOptionForms, childCssAttributes } = this.state;
+    console.log('The children count before update: ', this.props.childrenCount)
+    const { childHtmlInputOptionForms, childCssAttributes } = this.state
     this.setState((state, prevState) => {
-      this.state.childHtmlOptionForms.push(this.props.childrenCount);
+      this.state.childHtmlOptionForms.push(this.props.childrenCount)
       this.state.childCssAttributes.push({
         childCssAttributeInputOptionCount: 1,
-        styles: {}
-      });
-    });
+        styles: {},
+      })
+    })
     // invocation of a function declared in SidebarController Component
     // to update it's children_count state, incrementing by 1
-    this.props.updateChildrenCount();
-  };
+    this.props.updateChildrenCount()
+  }
 
   addParentCssAttributeInputOption = (elementId, parentOrChild) => {
     // const elId = elementId;
     // const parOrChi = parentOrChild;
-    const SidebarOptionsFactoryThis = this;
+    const SidebarOptionsFactoryThis = this
     return function(e) {
-      e.preventDefault();
+      e.preventDefault()
       const targetParentToIncrement =
-        SidebarOptionsFactoryThis.state.parentCssAttributes;
-      const styles = targetParentToIncrement.styles;
+        SidebarOptionsFactoryThis.state.parentCssAttributes
+      const styles = targetParentToIncrement.styles
       const inputOptionCountAdjustedForArrAccess =
-        targetParentToIncrement.parentCssAttributeInputOptionCount - 1;
-      const stylesPropertyArr = Object.getOwnPropertyNames(styles);
+        targetParentToIncrement.parentCssAttributeInputOptionCount - 1
+      const stylesPropertyArr = Object.getOwnPropertyNames(styles)
       // This check is to ensure that a css option has already been selected before
       // adding a new blank input
       if (stylesPropertyArr[inputOptionCountAdjustedForArrAccess]) {
@@ -117,9 +117,9 @@ class SidebarOptionsFactory extends Component {
           parentCssAttributes: {
             ...SidebarOptionsFactoryThis.state.parentCssAttributes,
             parentCssAttributeInputOptionCount: ++SidebarOptionsFactoryThis
-              .state.parentCssAttributes.parentCssAttributeInputOptionCount
-          }
-        });
+              .state.parentCssAttributes.parentCssAttributeInputOptionCount,
+          },
+        })
       }
 
       // console.log(
@@ -141,11 +141,11 @@ class SidebarOptionsFactory extends Component {
       // this function is called when user clicks the add style button from within
       // the cssStyleOptions SFC -> CssModalDiv
       // this.setState.parentCssAttributes.parentCssAttributeInputOptionCount = ++parentCssAttributeInputOptionCount;
-    };
-  };
+    }
+  }
 
   addChildCssAttributeInputOption = (elementId, parentOrChild) => {
-    const SidebarOptionsFactoryThis = this;
+    const SidebarOptionsFactoryThis = this
     return function(e) {
       // this.state.childCssAttributes will be shaped as
       // [{}, {}, {}]
@@ -154,26 +154,26 @@ class SidebarOptionsFactory extends Component {
       // the id that's assigned to the childHtmlOptionForm element that is being clicked).
       // That's how we'll access the object within childCss Attributes, and then increment the
       // childCssAttributeInputOptionCount by one.
-      e.preventDefault();
+      e.preventDefault()
 
       const targetChildToIncrement =
-        SidebarOptionsFactoryThis.state.childCssAttributes[elementId];
-      const styles = targetChildToIncrement.styles;
+        SidebarOptionsFactoryThis.state.childCssAttributes[elementId]
+      const styles = targetChildToIncrement.styles
       const inputOptionCountAdjustedForArrAccess =
-        targetChildToIncrement.childCssAttributeInputOptionCount - 1;
-      const stylesPropertyArr = Object.getOwnPropertyNames(styles);
+        targetChildToIncrement.childCssAttributeInputOptionCount - 1
+      const stylesPropertyArr = Object.getOwnPropertyNames(styles)
       // This check is to ensure that a css option has already been selected before
       // adding a new blank input
       if (stylesPropertyArr[inputOptionCountAdjustedForArrAccess]) {
-        targetChildToIncrement.childCssAttributeInputOptionCount += 1;
+        targetChildToIncrement.childCssAttributeInputOptionCount += 1
         SidebarOptionsFactoryThis.setState({
           childCssAttributes: [
-            ...SidebarOptionsFactoryThis.state.childCssAttributes
-          ]
-        });
+            ...SidebarOptionsFactoryThis.state.childCssAttributes,
+          ],
+        })
       }
-    };
-  };
+    }
+  }
 
   // Okay so on submit you'd want to target the containing div via:
   // parentCssFormDiv_0, childCssFormDiv_0, childtCssFormDiv_1 ... etc
@@ -207,17 +207,17 @@ class SidebarOptionsFactory extends Component {
   // ALSO, IN ORDER TO PREVENT MULTIPLE SELECTIONS OF
 
   updateCssStyles = (elementId, parentOrChild) => {
-    const SidebarOptionsFactoryThis = this;
+    const SidebarOptionsFactoryThis = this
     return function(e) {
       // console.log("PAR OR CHI", parentOrChild);
       // console.log("THE ELEMENT ID", elementId);
       // console.log("THE TARGET", e.currentTarget.className);
       // console.log("THE TARGET DIR", e.currentTarget.children);
       // MAY NEED TO BE ADJUSTED TO TARGET CONTAINING DIV
-      const elementList = document.getElementsByClassName(e.target.className);
-      const targetElementsClassName = e.target.className;
-      console.log("THE ELEMENT LIST: ", elementList);
-      const selectDropDownOption = elementList[1].value;
+      const elementList = document.getElementsByClassName(e.target.className)
+      const targetElementsClassName = e.target.className
+      console.log('THE ELEMENT LIST: ', elementList)
+      const selectDropDownOption = elementList[1].value
 
       // THE START OF THE DELETION LOGIC.
       // NOW I JUST NEED TO ADD A BUTTON THAT WILL
@@ -235,32 +235,31 @@ class SidebarOptionsFactory extends Component {
           SidebarOptionsFactoryThis.setState({
             inputsToDeleteByClassName: {
               [targetElementsClassName]: true,
-              ...SidebarOptionsFactoryThis.state.inputsToDeleteByClassName
-            }
-          });
+              ...SidebarOptionsFactoryThis.state.inputsToDeleteByClassName,
+            },
+          })
       }
       // To ensure that state&input value isn't updated without a select option chosen.
       // Not calling setState here, because when I attempted to do so, it wouldn't trigger
       // a re-render. I can only assume it has something to do with the nested structure of
       // the state.
-      if (selectDropDownOption !== "") {
+      if (selectDropDownOption !== '') {
         // Do state updating here.
-        if (parentOrChild === "parent") {
+        if (parentOrChild === 'parent') {
           SidebarOptionsFactoryThis.state.parentCssAttributes.styles[
             selectDropDownOption
-          ] =
-            elementList[1].value;
-        } else if (parentOrChild === "child") {
+          ] = elementList[1].value
+        } else if (parentOrChild === 'child') {
           const targetChildToUpdateStyle =
-            SidebarOptionsFactoryThis.state.childCssAttributes[elementId];
+            SidebarOptionsFactoryThis.state.childCssAttributes[elementId]
           targetChildToUpdateStyle.styles[selectDropDownOption] =
-            elementList[1].value;
+            elementList[1].value
         }
       } else {
         // the associated input
         // This ensures the user can't type into the
         // input field if a CSS property hasn't been selected
-        elementList[2].value = "";
+        elementList[2].value = ''
       }
       // console.log(
       //   "THE UPDATED PARENT CSS ATTR STATE: ",
@@ -270,26 +269,26 @@ class SidebarOptionsFactory extends Component {
       //   "THE UPDATED CHILD CSS ATTR STATE: ",
       //   SidebarOptionsFactoryThis.state.childCssAttributes[elementId]
       // );
-    };
-  };
+    }
+  }
 
   render() {
-    const { childHtmlOptionForms } = this.state;
+    const { childHtmlOptionForms } = this.state
     return (
       <Div>
         <button onClick={this.addChildHtmlOptionForm}>Add Child</button>
         {this.renderParentHtmlOptionForm()}
-        {childHtmlOptionForms.length > 0 ? (
-          this.renderChildHtmlOptionBar()
-        ) : null}
+        {childHtmlOptionForms.length > 0
+          ? this.renderChildHtmlOptionBar()
+          : null}
       </Div>
-    );
+    )
     // button RenderedBeneath all the rendered htmlOptions that allows more
     // Html options to be added, for the purposes of adding children html elements
   }
 }
 
-export default SidebarOptionsFactory;
+export default SidebarOptionsFactory
 
 /*
 *   { 

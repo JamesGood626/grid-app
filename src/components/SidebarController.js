@@ -47,6 +47,7 @@ class SidebarController extends Component {
   }
 
   render() {
+    console.log('THIS IS HTML ELEMENTS FROM MAPSTATE TO PROPS: ', this.props)
     const { parent_count, children_count } = this.state
     return (
       <div className="sidebarController">
@@ -60,8 +61,9 @@ class SidebarController extends Component {
   }
 }
 
-function mapStateToProps({ htmlElements }) {
-  return htmlElements
+function mapStateToProps({ html }) {
+  console.log('THE STATE IN MAP STATE TO PROPS: ', html)
+  return { html }
 }
 
 // Already connected this component so just pass addHtmlElement down to SOF and call it

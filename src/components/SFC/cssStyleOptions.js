@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import HtmlTabOptionsSelector from "./htmlTabOptionsSelector";
+import React from 'react'
+import styled from 'styled-components'
+import HtmlTabOptionsSelector from './htmlTabOptionsSelector'
 
 const CssDiv = styled.div`
   position: relative;
@@ -10,7 +10,7 @@ const CssDiv = styled.div`
   text-align: center;
   margin: 0;
   background: lime;
-`;
+`
 
 const CssModalDiv = styled.div`
   visibility: hidden;
@@ -24,20 +24,20 @@ const CssModalDiv = styled.div`
   ${CssDiv}:hover & {
     visibility: visible;
   }
-`;
+`
 
 const CssAttributeInputDiv = styled.div`
   display: flex;
   width: 100%;
-`;
+`
 
 const createNewFilledArray = count => {
-  const arr = [];
+  const arr = []
   for (let i = count; i > 0; i--) {
-    arr.push(i);
+    arr.push(i)
   }
-  return arr;
-};
+  return arr
+}
 
 const cssStyleOptions = ({
   cssOptionCount,
@@ -45,13 +45,13 @@ const cssStyleOptions = ({
   updateCssStyles,
   userInputStyles,
   parentId,
-  childId
+  childId,
 }) => {
-  const arrayForCssInputRendering = createNewFilledArray(cssOptionCount);
-  const elementId = typeof parentId === "number" ? parentId : childId;
-  const parentOrChild = typeof parentId === "number" ? "parent" : "child";
-  const addCssInputOptionEnhanced = addCssInputOption(elementId, parentOrChild);
-  const updateCssStylesEnhanced = updateCssStyles(elementId, parentOrChild);
+  const arrayForCssInputRendering = createNewFilledArray(cssOptionCount)
+  const elementId = typeof parentId === 'number' ? parentId : childId
+  const parentOrChild = typeof parentId === 'number' ? 'parent' : 'child'
+  const addCssInputOptionEnhanced = addCssInputOption(elementId, parentOrChild)
+  const updateCssStylesEnhanced = updateCssStyles(elementId, parentOrChild)
   return (
     <CssDiv>
       Add CSS
@@ -62,7 +62,7 @@ const cssStyleOptions = ({
         <button onClick={addCssInputOptionEnhanced}>Add Input</button>
         {arrayForCssInputRendering.map((curr, i) => {
           return (
-            <CssAttributeInputDiv>
+            <CssAttributeInputDiv key={`${curr}_${i}`}>
               <input
                 type="checkbox"
                 className={`${parentOrChild}CssInputElement_${elementId}_${i}`}
@@ -70,8 +70,8 @@ const cssStyleOptions = ({
               />
               <HtmlTabOptionsSelector
                 passedClassName={`${parentOrChild}CssInputElement_${elementId}_${i}`}
-                optionTitle={"Select CSS Property"}
-                options={["background", "color", "font-size"]}
+                optionTitle={'Select CSS Property'}
+                options={['background', 'color', 'font-size']}
                 userInputStyles={userInputStyles}
                 selectionInputId={i}
               />
@@ -80,11 +80,11 @@ const cssStyleOptions = ({
                 className={`${parentOrChild}CssInputElement_${elementId}_${i}`}
               />
             </CssAttributeInputDiv>
-          );
+          )
         })}
       </CssModalDiv>
     </CssDiv>
-  );
-};
+  )
+}
 // updateCssStyles={updateCssStylesEnhanced}
-export default cssStyleOptions;
+export default cssStyleOptions

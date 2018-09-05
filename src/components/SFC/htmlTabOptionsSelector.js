@@ -31,8 +31,12 @@ const renderOptions = (elementId, optionsArray, userInputStyles) => {
     }
     return true
   })
-  const secondHtmlOptionElArr = filteredOptionsArray.map(option => {
-    return <option value={option}>{option}</option>
+  const secondHtmlOptionElArr = filteredOptionsArray.map((option, i) => {
+    return (
+      <option key={`${option}_${i}`} value={option}>
+        {option}
+      </option>
+    )
   })
   return firstHtmlOptionsElArr.length > 0
     ? firstHtmlOptionsElArr.concat(secondHtmlOptionElArr)

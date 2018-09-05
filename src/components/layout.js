@@ -17,6 +17,7 @@ import SidebarController from './SidebarController'
 // This is where I render a second react app into
 // the iframe that's in the App class's render func
 const initGridPlayGround = iFrame => {
+  // const store = storeFromProps ? storeFromProps : instantiatedStore
   ReactDOM.render(
     <Provider store={instantiatedStore}>
       <SubDocument />
@@ -29,6 +30,9 @@ class Layout extends Component {
   componentDidMount() {
     console.log('THIS IS THE APP STORE: ', instantiatedStore)
     const iFrame = document.getElementById('frame')
+    // const storeFromProps = this.props.instantiatedStore
+    //  ? this.props.instantiatedStore
+    //  : null
     setTimeout(() => {
       if (iFrame.contentWindow.document.readyState === 'complete') {
         initGridPlayGround(iFrame)
@@ -38,40 +42,28 @@ class Layout extends Component {
 
   render() {
     return (
-      <StaticQuery
-        query={graphql`
-          query SiteTitleQuery {
-            site {
-              siteMetadata {
-                title
-              }
-            }
-          }
-        `}
-        render={data => (
-          <>
-            <Helmet
-              title={data.site.siteMetadata.title}
-              meta={[
-                { name: 'description', content: 'Sample' },
-                { name: 'keywords', content: 'sample, something' },
-              ]}
-            >
-              <html lang="en" />
-            </Helmet>
-            <Header siteTitle={data.site.siteMetadata.title} />
-            <div className="container">
-              <SidebarController />
-              <iframe
-                id="frame"
-                srcDoc="<!DOCTYPE html><html><head></head><body><div id='subDocument'></div></body></html>"
-                height="100%"
-                width="100%"
-              />
-            </div>
-          </>
-        )}
-      />
+      <>
+        <Helmet
+          title={'title'}
+          meta={[
+            { name: 'description', content: 'Sample' },
+            { name: 'keywords', content: 'sample, something' },
+          ]}
+        >
+          <html lang="en" />
+        </Helmet>
+        <Header siteTitle={'title'} />
+        <div className="container">
+          <SidebarController store={instantiatedStore} />
+          <iframe
+            id="frame"
+            data-testid="iframe"
+            srcDoc="<!DOCTYPE html><html><head></head><body><div id='subDocument'></div></body></html>"
+            height="100%"
+            width="100%"
+          />
+        </div>
+      </>
     )
   }
 }
