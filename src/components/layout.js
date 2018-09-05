@@ -54,7 +54,10 @@ class Layout extends Component {
         </Helmet>
         <Header siteTitle={'title'} />
         <div className="container">
-          <SidebarController store={instantiatedStore} />
+          <SidebarController
+            className="sidebar-controller"
+            store={instantiatedStore}
+          />
           <iframe
             id="frame"
             data-testid="iframe"
