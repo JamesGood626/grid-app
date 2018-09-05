@@ -3,4 +3,5 @@ module.exports = {
   ADD_CSS_STYLES: 'add_css_styles',
   UPDATE_HTML_ELEMENT: 'update_html_element',
   DELETE_HTML_ELEMENT: 'delete_html_element',
+  RESET_STATE: 'reset_state',
 }

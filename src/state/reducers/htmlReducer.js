@@ -2,9 +2,9 @@ import {
   ADD_HTML_ELEMENT,
   UPDATE_HTML_ELEMENT,
   DELETE_HTML_ELEMENT,
+  RESET_STATE,
 } from '../actions/types'
-import { access } from 'fs'
-
+import { initialState } from '../index'
 // const initialState = {
 //   byId: {},
 //   allIds: [],
@@ -23,7 +23,7 @@ import { access } from 'fs'
 // IHtmlElement id
 
 // The current implementation of add may need to be changed to be UPDATE_HTML_ELEMENTS
-export default function(state = null, action) {
+export default function(state = initialState, action) {
   switch (action.type) {
     case ADD_HTML_ELEMENT:
       return {
@@ -67,6 +67,8 @@ export default function(state = null, action) {
         }, {}),
         allIds: [...state.allIds].filter(id => id !== action.id),
       }
+    case RESET_STATE:
+      return initialState
     default:
       return state
   }

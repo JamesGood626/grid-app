@@ -5,14 +5,9 @@ import cssReducer from './reducers/cssReducer'
 
 // The preloaded state from combineReducers is always set
 // over state = whatever, from the imported reducers
-const stateShape = {
+export const initialState = {
   byId: {},
   allIds: [],
-}
-
-const initialState = {
-  html: stateShape,
-  css: stateShape,
 }
 
 const reducer = combineReducers({
@@ -20,5 +15,5 @@ const reducer = combineReducers({
   css: cssReducer,
 })
 
-const store = createStore(reducer, initialState)
+const store = createStore(reducer)
 export default store

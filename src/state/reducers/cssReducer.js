@@ -1,6 +1,7 @@
 import { ADD_CSS_STYLES } from '../actions/types'
+import { initialState } from '../index'
 
-export default function(state = null, action) {
+export default function(state = initialState, action) {
   switch (action.type) {
     case ADD_CSS_STYLES:
       return {

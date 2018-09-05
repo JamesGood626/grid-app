@@ -17,6 +17,6 @@ describe('Layout', () => {
     const iframe = getByTestId('iframe')
     // Styled components must be obtains via classNames as data-testid doesn't work.
     const sidebarController = container.querySelector('sidebar-controller')
-    debug()
+    // debug()
   })
 })
