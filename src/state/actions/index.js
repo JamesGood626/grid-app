@@ -18,7 +18,7 @@ export const addHtmlElement = payload => {
 }
 
 export const updateHtmlElement = payload => {
-  // receives identical payload as addHtmlElement
+  // receives identical payload as addHtmlElement w/ the addition of parent_id
   return { type: UPDATE_HTML_ELEMENT, payload }
 }
 
