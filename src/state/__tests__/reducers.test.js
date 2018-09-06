@@ -3,14 +3,14 @@ import { addHtmlElement, updateHtmlElement, resetState } from '../actions'
 
 const payload = {
   id: 'first-element',
-  parent_id: null,
+  parent_id: [],
   element_type: 'section',
   children_list: [],
   all_children_ids: [],
 }
 const payloadTwo = {
   id: 'second-element',
-  parent_id: null,
+  parent_id: [],
   element_type: 'div',
   children_list: [],
   all_children_ids: [],
@@ -75,39 +75,71 @@ describe('Reducer', () => {
     expect(state.html.allIds[1]).toBe(payloadTwo.id)
   })
 
-  test('adds child html element to parent element state', () => {
+  test('adds a single child html element to parent element state', () => {
+    store.dispatch(addHtmlElement(payload))
     store.dispatch(addHtmlElement(payloadTwo))
     store.dispatch(updateHtmlElement(childElPayload))
     const state = store.getState()
-    console.log('THIS IS THE STATE RESULT OF ADDING CHILD: ', state.html.byId)
-    // expect(state.html.byId[payload.id]).toEqual(payload)
-    // expect(state.html.byId[payloadTwo.id]).toEqual(payloadTwo)
-    // expect(state.html.allIds.length).toBe(2)
-    // expect(state.html.allIds[0]).toBe(payload.id)
-    // expect(state.html.allIds[1]).toBe(payloadTwo.id)
+    const parentObj = state.html.byId[payloadTwo.id]
+    const childObj = parentObj.children_list_byId[childElPayload.id]
+    expect(state.html.allIds.length).toBe(2)
+    // Parent state tree test
+    expect(parentObj.id).toBe(payloadTwo.id)
+    expect(parentObj.element_type).toBe(payloadTwo.element_type)
+    expect(parentObj.parent_id).toBe(payloadTwo.parent_id)
+    expect(parentObj.all_children_ids.length).toBe(1)
+    expect(parentObj.all_children_ids[0]).toBe(childElPayload.id)
+    // Child state tree test
+    expect(childObj.id).toBe(childElPayload.id)
+    expect(childObj.parent_id_arr.length).toBe(1)
+    expect(childObj.parent_id_arr[0]).toBe(payloadTwo.id)
+    expect(childObj.element_type).toBe(childElPayload.element_type)
+    expect(childObj.all_children_ids.length).toBe(0)
   })
 
-  test('adds grandchild html element to parent element state', () => {
+  test('adds grand grand child html element to parent element state', () => {
+    store.dispatch(addHtmlElement(payload))
     store.dispatch(addHtmlElement(payloadTwo))
     store.dispatch(updateHtmlElement(childElPayload))
     store.dispatch(updateHtmlElement(grandChildElPayload))
     store.dispatch(updateHtmlElement(grandGrandChildElPayload))
     const state = store.getState()
-    console.log(
-      'THIS IS THE STATE RESULT OF ADDING GRANDCHILD: ',
-      state.html.byId
+    const parentObj = state.html.byId[payloadTwo.id]
+    const childObj = parentObj.children_list_byId[childElPayload.id]
+    const grandChildObj = childObj.children_list_byId[grandChildElPayload.id]
+    const grandGrandChildObj =
+      grandChildObj.children_list_byId[grandGrandChildElPayload.id]
+    expect(state.html.allIds.length).toBe(2)
+    // Parent state tree test
+    expect(parentObj.id).toBe(payloadTwo.id)
+    expect(parentObj.element_type).toBe(payloadTwo.element_type)
+    expect(parentObj.parent_id).toBe(payloadTwo.parent_id)
+    expect(parentObj.all_children_ids.length).toBe(1)
+    expect(parentObj.all_children_ids[0]).toBe(childElPayload.id)
+    // Child state tree test
+    expect(childObj.id).toBe(childElPayload.id)
+    expect(childObj.parent_id_arr.length).toBe(1)
+    expect(childObj.parent_id_arr[0]).toBe(payloadTwo.id)
+    expect(childObj.element_type).toBe(childElPayload.element_type)
+    expect(childObj.all_children_ids.length).toBe(1)
+    expect(childObj.all_children_ids[0]).toBe(grandChildElPayload.id)
+    // Grand Child state tree test
+    expect(grandChildObj.id).toBe(grandChildElPayload.id)
+    expect(grandChildObj.parent_id_arr.length).toBe(2)
+    expect(grandChildObj.parent_id_arr[0]).toBe(payloadTwo.id)
+    expect(grandChildObj.parent_id_arr[1]).toBe(childElPayload.id)
+    expect(grandChildObj.element_type).toBe(grandChildElPayload.element_type)
+    expect(grandChildObj.all_children_ids.length).toBe(1)
+    expect(grandChildObj.all_children_ids[0]).toBe(grandGrandChildObj.id)
+    // And finally, the Grand Grand Child state tree test
+    expect(grandGrandChildObj.id).toBe(grandGrandChildElPayload.id)
+    expect(grandGrandChildObj.parent_id_arr.length).toBe(3)
+    expect(grandGrandChildObj.parent_id_arr[0]).toBe(payloadTwo.id)
+    expect(grandGrandChildObj.parent_id_arr[1]).toBe(childElPayload.id)
+    expect(grandGrandChildObj.parent_id_arr[2]).toBe(grandChildElPayload.id)
+    expect(grandGrandChildObj.element_type).toBe(
+      grandGrandChildElPayload.element_type
     )
-    console.log(
-      state.html.byId['second-element'].children_list_byId['child-element']
-    )
-    console.log(
-      state.html.byId['second-element'].children_list_byId['child-element']
-        .children_list_byId['grand-child-element']
-    )
-    // expect(state.html.byId[payload.id]).toEqual(payload)
-    // expect(state.html.byId[payloadTwo.id]).toEqual(payloadTwo)
-    // expect(state.html.allIds.length).toBe(2)
-    // expect(state.html.allIds[0]).toBe(payload.id)
-    // expect(state.html.allIds[1]).toBe(payloadTwo.id)
+    expect(grandGrandChildObj.all_children_ids.length).toBe(0)
   })
 })

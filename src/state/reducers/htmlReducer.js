@@ -55,8 +55,6 @@ const recurseToFindTargetHtmlById = (
   htmlElementObj
 ) => {
   const levelOfParentIds = parent_id_arr.length
-  console.log('THE COUNT: ', count)
-  console.log('THIS IS THE LEVEL OF PARENT IDS: ', levelOfParentIds)
   if (count === levelOfParentIds) {
     // Reverse is necessary to start from the most recently added parent Html element.
     // as without it, we'd be accessing the most senior parent first in our reduce.
@@ -129,14 +127,11 @@ export default function(state = initialState, action) {
         allIds: [...state.allIds, action.payload.id],
       }
     case UPDATE_HTML_ELEMENT:
-      const { parent_id } = action.payload
       return iterateForUpdate(state, action, action.payload.parent_id)
     case DELETE_HTML_ELEMENT:
       const keys = Object.keys(state.byId).filter(key => key !== action.id)
       return {
         ...state,
-        // Indeed, it is a mutation, but the docs
-        // haven't shown me the immutablelight.
         byId: keys.reduce((acc, key) => {
           acc[key] = state[key]
           return acc
