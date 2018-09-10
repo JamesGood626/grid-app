@@ -1,7 +1,8 @@
 import {
   ADD_HTML_ELEMENT,
   ADD_CSS_STYLES,
-  UPDATE_HTML_ELEMENT,
+  ADD_NESTED_HTML_ELEMENT,
+  INSERT_PARENT_HTML_ELEMENT,
   DELETE_HTML_ELEMENT,
   RESET_STATE,
 } from './types'
@@ -19,7 +20,11 @@ export const addHtmlElement = payload => {
 
 export const updateHtmlElement = payload => {
   // receives identical payload as addHtmlElement w/ the addition of parent_id
-  return { type: UPDATE_HTML_ELEMENT, payload }
+  return { type: ADD_NESTED_HTML_ELEMENT, payload }
+}
+
+export const insertParentHtmlElement = payload => {
+  return { type: INSERT_PARENT_HTML_ELEMENT, payload }
 }
 
 export const deleteHtmlElement = ({ id }) => {
