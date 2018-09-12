@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import styled from 'styled-components'
 // import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import { StaticQuery, graphql } from 'gatsby'
@@ -12,6 +13,18 @@ import { Provider } from 'react-redux'
 import { instantiatedStore } from '../../wrap-with-provider'
 import SubDocument from './SubDocument'
 import SidebarController from './SidebarController'
+
+const MainContainer = styled.section`
+  display: flex;
+  overflow: hidden;
+  margin: 0;
+  background: lime;
+`
+
+const IFrame = styled.iframe`
+  height: 100vh;
+  width: 100%;
+`
 
 // React.SFC
 // This is where I render a second react app into
@@ -52,20 +65,20 @@ class Layout extends Component {
         >
           <html lang="en" />
         </Helmet>
-        <Header siteTitle={'title'} />
-        <div className="container">
+        <MainContainer>
           <SidebarController
             className="sidebar-controller"
             store={instantiatedStore}
           />
-          <iframe
+          <IFrame
             id="frame"
             data-testid="iframe"
+            frameBorder="0"
             srcDoc="<!DOCTYPE html><html><head></head><body><div id='subDocument'></div></body></html>"
             height="100%"
             width="100%"
           />
-        </div>
+        </MainContainer>
       </>
     )
   }

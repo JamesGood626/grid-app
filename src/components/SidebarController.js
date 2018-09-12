@@ -1,8 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
 import { addHtmlElement } from '../state/actions'
 import SidebarOptionsFactory from './SidebarOptionsFactory'
 // import '../index.css'
+
+const SidebarContainer = styled.div`
+  height: 100vh;
+  width: 30vw;
+  margin: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+`
 
 // Receives addHtmlElement() as props, coming from actions
 class SidebarController extends Component {
@@ -50,13 +59,13 @@ class SidebarController extends Component {
     console.log('THIS IS HTML ELEMENTS FROM MAPSTATE TO PROPS: ', this.props)
     const { parent_count, children_count } = this.state
     return (
-      <div className="sidebarController">
+      <SidebarContainer className="sidebarController">
         <SidebarOptionsFactory
           updateChildrenCount={this.updateChildrenCount}
           parentCount={parent_count}
           childrenCount={children_count}
         />
-      </div>
+      </SidebarContainer>
     )
   }
 }

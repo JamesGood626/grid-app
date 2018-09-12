@@ -53,6 +53,7 @@ class SubDocument extends Component {
 
     // Add the <style> element to the page
     subDocumentHead.appendChild(style)
+    style.sheet.insertRule('body { margin: 0 }', 0)
 
     // **** NOTE: adding rules at the same index in subsequent rules won't overwrite
     // previous rules that were inserted at that index, they'll just take that position
@@ -60,11 +61,10 @@ class SubDocument extends Component {
     // Whether I want to enable the user to specify the order of the rules they select..
     // The default for index is -1, which means the end of the collection.
     // For extra/lazy control, you may add !important to rules to avoid problems with the index.
-    style.sheet.insertRule('header { float: left; opacity: 0.8; }', 0)
-    style.sheet.insertRule('body { float: left; opacity: 0.8; }', 1)
+    // style.sheet.insertRule('header { float: left; opacity: 0.8; }', 1)
     // Adding media queries easy breezy
     style.sheet.insertRule(
-      '@media (min-width:500px) {.block { float: left; opacity: 0.8; }}',
+      '@media (min-width:500px) {.block { float: right; opacity: 0.8; }}',
       1
     )
     this.setState({
@@ -189,12 +189,12 @@ class SubDocument extends Component {
   // <div className="container">{this.renderHtmlElements()}</div>;
   render() {
     const styledContainer = {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
+      display: 'block',
       height: '100vh',
-      width: '100vw',
-      background: '#e04',
+      width: '100%',
+      background: '#fff',
+      padding: '0',
+      margin: '0',
     }
     const styledBlock = {
       height: '10rem',
